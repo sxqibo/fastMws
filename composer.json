@@ -1,0 +1,34 @@
+{
+  "name": "sxqibo/fast-mws",
+  "description": "Library to interface with Amazon MWS",
+  "license": "MIT",
+  "keywords": [
+    "amazon",
+    "mws"
+  ],
+  "minimum-stability": "dev",
+  "authors": [
+    {
+      "name": "sxqibo",
+      "email": "hongweizhiyuan@qq.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.0",
+    "ext-mbstring": "*",
+    "ext-json": "*",
+    "ext-simplexml": "*",
+    "guzzlehttp/guzzle": "~6.0",
+    "spatie/array-to-xml": "^2.1",
+    "league/csv": "^9",
+    "ext-curl": "*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^7"
+  },
+  "autoload": {
+    "psr-4": {
+      "MCS\\": "src"
+    }
+  }
+}
