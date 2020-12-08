@@ -177,8 +177,10 @@ class MWSClient
         $array = [];
         foreach ($response as $product) {
             if (isset($product['Product']['CompetitivePricing']['CompetitivePrices']['CompetitivePrice']['Price'])) {
-                $array[$product['Product']['Identifiers']['SKUIdentifier']['SellerSKU']]['Price'] = $product['Product']['CompetitivePricing']['CompetitivePrices']['CompetitivePrice']['Price'];
-                $array[$product['Product']['Identifiers']['SKUIdentifier']['SellerSKU']]['Rank'] = $product['Product']['SalesRankings']['SalesRank'][1];
+                $array[$product['Product']['Identifiers']['SKUIdentifier']['SellerSKU']]['Price']           = $product['Product']['CompetitivePricing']['CompetitivePrices']['CompetitivePrice']['Price'];
+                $array[$product['Product']['Identifiers']['SKUIdentifier']['SellerSKU']]['Rank']            = !empty($product['Product']['SalesRankings']['SalesRank'])??$product['Product']['SalesRankings']['SalesRank'][1];
+                $array[$product['Product']['Identifiers']['SKUIdentifier']['SellerSKU']]['attributes']      = $product['Product']['CompetitivePricing']['CompetitivePrices']['CompetitivePrice']['@attributes'];
+                $array[$product['Product']['Identifiers']['SKUIdentifier']['SellerSKU']]['MarketplaceASIN'] = $product['Product']['Identifiers']['MarketplaceASIN'];
             }
         }
         return $array;
