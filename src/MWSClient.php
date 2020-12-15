@@ -177,9 +177,9 @@ class MWSClient
         $array = [];
         foreach ($response as $product) {
             if (isset($product['Product']['CompetitivePricing']['CompetitivePrices']['CompetitivePrice']['Price'])) {
-                $array[$product['Product']['Identifiers']['SKUIdentifier']['SellerSKU']]['Price']           = $product['Product']['CompetitivePricing']['CompetitivePrices']['CompetitivePrice']['Price'];
-                $array[$product['Product']['Identifiers']['SKUIdentifier']['SellerSKU']]['Rank']            = !empty($product['Product']['SalesRankings']['SalesRank'])??$product['Product']['SalesRankings']['SalesRank'][1];
-                $array[$product['Product']['Identifiers']['SKUIdentifier']['SellerSKU']]['attributes']      = $product['Product']['CompetitivePricing']['CompetitivePrices']['CompetitivePrice']['@attributes'];
+                $array[$product['Product']['Identifiers']['SKUIdentifier']['SellerSKU']]['Price'] = $product['Product']['CompetitivePricing']['CompetitivePrices']['CompetitivePrice']['Price'];
+                $array[$product['Product']['Identifiers']['SKUIdentifier']['SellerSKU']]['Rank'] = !empty($product['Product']['SalesRankings']['SalesRank']) ?? $product['Product']['SalesRankings']['SalesRank'][1];
+                $array[$product['Product']['Identifiers']['SKUIdentifier']['SellerSKU']]['attributes'] = $product['Product']['CompetitivePricing']['CompetitivePrices']['CompetitivePrice']['@attributes'];
                 $array[$product['Product']['Identifiers']['SKUIdentifier']['SellerSKU']]['MarketplaceASIN'] = $product['Product']['Identifiers']['MarketplaceASIN'];
             }
         }
@@ -1243,6 +1243,35 @@ class MWSClient
 
         foreach ($MWSProduct as $product) {
             $csv->insertOne(array_values($product->toArray()));
+        }
+
+        return $this->SubmitFeed('_POST_FLAT_FILE_LISTINGS_DATA_', $csv);
+    }
+
+    /**
+     * Post to create or update a product (_POST_FLAT_FILE_LISTINGS_DATA_)
+     * @param array $MWSProduct
+     * @param string $template
+     * @param null $version
+     * @return array
+     * @throws Exception
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function postFollowProduct($MWSProduct, $template = 'Offer', $version = null)
+    {
+        if (!is_array($MWSProduct)) {
+            $MWSProduct = [$MWSProduct];
+        }
+        $csv = Writer::createFromFileObject(new SplTempFileObject());
+        $csv->setDelimiter("\t");
+
+        $csv->insertOne(['TemplateType=' . $template, 'Version=' . $version]);
+
+        $header = array_keys($MWSProduct[0]);
+        $csv->insertOne($header);
+
+        foreach ($MWSProduct as $product) {
+            $csv->insertOne(array_values($product));
         }
 
         return $this->SubmitFeed('_POST_FLAT_FILE_LISTINGS_DATA_', $csv);
