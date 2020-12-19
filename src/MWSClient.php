@@ -1269,6 +1269,7 @@ class MWSClient
 
         $header = array_keys($MWSProduct[0]);
         $csv->insertOne($header);
+        $csv->insertOne($header);
 
         foreach ($MWSProduct as $product) {
             $csv->insertOne(array_values($product));

@@ -30,6 +30,7 @@ class AmazonMarketPlaceProduct
     private $manufacturer;
     private $sale_from_date;
     private $sale_end_date;
+    private $part_number;
     private $other_attributes = [];
     /**
      * @var string Child or Parent or ''
@@ -284,6 +285,7 @@ class AmazonMarketPlaceProduct
                 'recommended_browse_nodes' => $this->recommended_browse_nodes,
                 'sale_from_date' => $this->sale_from_date,
                 'sale_end_date' => $this->sale_end_date,
+                'part_number' => $this->part_number,
                 'main_image_url' => array_key_exists(0, $this->image) ? $this->image[0] : '',
                 'other_image_url1' => array_key_exists(1, $this->image) ? $this->image[1] : '',
                 'other_image_url2' => array_key_exists(2, $this->image) ? $this->image[2] : '',
@@ -506,6 +508,16 @@ class AmazonMarketPlaceProduct
     public function setParentChild($parent_child)
     {
         $this->parent_child = $parent_child;
+        return $this;
+    }
+
+    /**
+     * @param string $part_number
+     * @return AmazonMarketPlaceProduct
+     */
+    public function setPartNumber($part_number)
+    {
+        $this->part_number = $part_number;
         return $this;
     }
 }
