@@ -1534,7 +1534,7 @@ class MWSClient
             } else {
                 $message = 'An error occured';
             }
-            throw new Exception($message);
+            throw new Exception($message, $e->getCode());
         }
     }
 
