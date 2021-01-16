@@ -18,28 +18,28 @@ class MWSClient
     const DATE_FORMAT = "Y-m-d\TH:i:s.\\0\\0\\0\\Z";
     const APPLICATION_NAME = 'MCS/MwsClient';
     protected $config = [
-        'Seller_Id' => null,
-        'Marketplace_Id' => null,
-        'Access_Key_ID' => null,
-        'Secret_Access_Key' => null,
-        'MWSAuthToken' => null,
+        'Seller_Id'           => null,
+        'Marketplace_Id'      => null,
+        'Access_Key_ID'       => null,
+        'Secret_Access_Key'   => null,
+        'MWSAuthToken'        => null,
         'Application_Version' => '0.0.*'
     ];
     protected $MarketplaceIds = [
         'A2EUQ1WTGCTBG2' => 'mws.amazonservices.ca',
-        'ATVPDKIKX0DER' => 'mws.amazonservices.com',
+        'ATVPDKIKX0DER'  => 'mws.amazonservices.com',
         'A1AM78C64UM0Y8' => 'mws.amazonservices.com.mx',
         'A1PA6795UKMFR9' => 'mws-eu.amazonservices.com',
         'A1RKKUPIHCS9HS' => 'mws-eu.amazonservices.com',
         'A13V1IB3VIYZZH' => 'mws-eu.amazonservices.com',
-        'A21TJRUUN4KGV' => 'mws.amazonservices.in',
-        'APJ6JRA9NG5V4' => 'mws-eu.amazonservices.com',
+        'A21TJRUUN4KGV'  => 'mws.amazonservices.in',
+        'APJ6JRA9NG5V4'  => 'mws-eu.amazonservices.com',
         'A1F83G8C2ARO7P' => 'mws-eu.amazonservices.com',
         'A1VC38T7YXB528' => 'mws.amazonservices.jp',
         'A39IBJ37TRP1C6' => 'mws.amazonservices.com.au',
         'A2Q3Y263D00KWC' => 'mws.amazonservices.com',
         'A1805IZSGTT6HS' => 'mws-eu.amazonservices.com',
-        'ARBP9OOSHTCHU' => 'mws-eu.amazonservices.com',
+        'ARBP9OOSHTCHU'  => 'mws-eu.amazonservices.com',
         'A17E79C6D8DWNP' => 'mws.amazonservices.com',
         'A33AVAJ2PDY3EV' => 'mws.amazonservices.com',
         'A19VAU5U5O7RUS' => 'mws-fe.amazonservices.com',
@@ -71,8 +71,8 @@ class MWSClient
             throw new Exception('Invalid Marketplace Id');
         }
         $this->config['Application_Name'] = self::APPLICATION_NAME;
-        $this->config['Region_Host'] = $this->MarketplaceIds[$this->config['Marketplace_Id']];
-        $this->config['Region_Url'] = 'https://' . $this->config['Region_Host'];
+        $this->config['Region_Host']      = $this->MarketplaceIds[$this->config['Marketplace_Id']];
+        $this->config['Region_Url']       = 'https://' . $this->config['Region_Host'];
     }
 
     /**
@@ -85,8 +85,8 @@ class MWSClient
 
     /**
      * A method to quickly check if the supplied credentials are valid
-     * @return boolean
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return boolean
      */
     public function validateCredentials()
     {
@@ -104,9 +104,9 @@ class MWSClient
     /**
      * Returns the current competitive price of a product, based on ASIN.
      * @param array [$asin_array = []]
-     * @return array
      * @throws Exception
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return array
      */
     public function GetCompetitivePricingForASIN($asin_array = [])
     {
@@ -114,7 +114,7 @@ class MWSClient
             throw new Exception('Maximum amount of ASIN\'s for this call is 20');
         }
         $counter = 1;
-        $query = [
+        $query   = [
             'MarketplaceId' => $this->config['Marketplace_Id']
         ];
         foreach ($asin_array as $key) {
@@ -145,9 +145,9 @@ class MWSClient
     /**
      * Returns the current competitive price of a product, based on SKU.
      * @param array [$sku_array = []]
-     * @return array
      * @throws Exception
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return array
      */
     public function GetCompetitivePricingForSKU($sku_array = [])
     {
@@ -155,7 +155,7 @@ class MWSClient
             throw new Exception('Maximum amount of SKU\'s for this call is 20');
         }
         $counter = 1;
-        $query = [
+        $query   = [
             'MarketplaceId' => $this->config['Marketplace_Id']
         ];
         foreach ($sku_array as $key) {
@@ -177,9 +177,9 @@ class MWSClient
         $array = [];
         foreach ($response as $product) {
             if (isset($product['Product']['CompetitivePricing']['CompetitivePrices']['CompetitivePrice']['Price'])) {
-                $array[$product['Product']['Identifiers']['SKUIdentifier']['SellerSKU']]['Price'] = $product['Product']['CompetitivePricing']['CompetitivePrices']['CompetitivePrice']['Price'];
-                $array[$product['Product']['Identifiers']['SKUIdentifier']['SellerSKU']]['Rank'] = !empty($product['Product']['SalesRankings']['SalesRank']) ?? $product['Product']['SalesRankings']['SalesRank'][1];
-                $array[$product['Product']['Identifiers']['SKUIdentifier']['SellerSKU']]['attributes'] = $product['Product']['CompetitivePricing']['CompetitivePrices']['CompetitivePrice']['@attributes'];
+                $array[$product['Product']['Identifiers']['SKUIdentifier']['SellerSKU']]['Price']           = $product['Product']['CompetitivePricing']['CompetitivePrices']['CompetitivePrice']['Price'];
+                $array[$product['Product']['Identifiers']['SKUIdentifier']['SellerSKU']]['Rank']            = !empty($product['Product']['SalesRankings']['SalesRank']) ?? $product['Product']['SalesRankings']['SalesRank'][1];
+                $array[$product['Product']['Identifiers']['SKUIdentifier']['SellerSKU']]['attributes']      = $product['Product']['CompetitivePricing']['CompetitivePrices']['CompetitivePrice']['@attributes'];
                 $array[$product['Product']['Identifiers']['SKUIdentifier']['SellerSKU']]['MarketplaceASIN'] = $product['Product']['Identifiers']['MarketplaceASIN'];
             }
         }
@@ -190,14 +190,14 @@ class MWSClient
      * Returns lowest priced offers for a single product, based on ASIN.
      * @param string $asin
      * @param string [$ItemCondition = 'New'] Should be one in: New, Used, Collectible, Refurbished, Club
-     * @return array
      * @throws Exception
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return array
      */
     public function GetLowestPricedOffersForASIN($asin, $ItemCondition = 'New')
     {
         $query = [
-            'ASIN' => $asin,
+            'ASIN'          => $asin,
             'MarketplaceId' => $this->config['Marketplace_Id'],
             'ItemCondition' => $ItemCondition
         ];
@@ -208,9 +208,9 @@ class MWSClient
      * Returns pricing information for your own offer listings, based on SKU.
      * @param array  [$sku_array = []]
      * @param string [$ItemCondition = null]
-     * @return array
      * @throws Exception
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return array
      */
     public function GetMyPriceForSKU($sku_array = [], $ItemCondition = null)
     {
@@ -218,7 +218,7 @@ class MWSClient
             throw new Exception('Maximum amount of SKU\'s for this call is 20');
         }
         $counter = 1;
-        $query = [
+        $query   = [
             'MarketplaceId' => $this->config['Marketplace_Id']
         ];
         if (!is_null($ItemCondition)) {
@@ -259,9 +259,9 @@ class MWSClient
      * Returns pricing information for your own offer listings, based on ASIN.
      * @param array [$asin_array = []]
      * @param string [$ItemCondition = null]
-     * @return array
      * @throws Exception
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return array
      */
     public function GetMyPriceForASIN($asin_array = [], $ItemCondition = null)
     {
@@ -269,7 +269,7 @@ class MWSClient
             throw new Exception('Maximum amount of SKU\'s for this call is 20');
         }
         $counter = 1;
-        $query = [
+        $query   = [
             'MarketplaceId' => $this->config['Marketplace_Id']
         ];
         if (!is_null($ItemCondition)) {
@@ -306,9 +306,9 @@ class MWSClient
      * Returns pricing information for the lowest-price active offer listings for up to 20 products, based on ASIN.
      * @param array [$asin_array = []] array of ASIN values
      * @param array [$ItemCondition = null] Should be one in: New, Used, Collectible, Refurbished, Club. Default: All
-     * @return array
      * @throws Exception
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return array
      */
     public function GetLowestOfferListingsForASIN($asin_array = [], $ItemCondition = null)
     {
@@ -316,7 +316,7 @@ class MWSClient
             throw new Exception('Maximum amount of ASIN\'s for this call is 20');
         }
         $counter = 1;
-        $query = [
+        $query   = [
             'MarketplaceId' => $this->config['Marketplace_Id']
         ];
         if (!is_null($ItemCondition)) {
@@ -356,9 +356,9 @@ class MWSClient
      * @param array $states , an array containing orders states you want to filter on
      * @param string $FulfillmentChannels
      * @param DateTime|null $till
-     * @return array
      * @throws Exception
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return array
      */
     public function ListOrders(
         DateTime $from,
@@ -380,20 +380,20 @@ class MWSClient
         $counter = 1;
         foreach ($states as $status) {
             $query['OrderStatus.Status.' . $counter] = $status;
-            $counter = $counter + 1;
+            $counter                                 = $counter + 1;
         }
         if ($allMarketplaces == true) {
             $counter = 1;
             foreach ($this->MarketplaceIds as $key => $value) {
                 $query['MarketplaceId.Id.' . $counter] = $key;
-                $counter = $counter + 1;
+                $counter                               = $counter + 1;
             }
         }
         if (is_array($FulfillmentChannels)) {
             $counter = 1;
             foreach ($FulfillmentChannels as $fulfillmentChannel) {
                 $query['FulfillmentChannel.Channel.' . $counter] = $fulfillmentChannel;
-                $counter = $counter + 1;
+                $counter                                         = $counter + 1;
             }
         } else {
             $query['FulfillmentChannel.Channel.1'] = $FulfillmentChannels;
@@ -402,7 +402,7 @@ class MWSClient
         if (isset($response['ListOrdersResult']['Orders']['Order'])) {
             if (isset($response['ListOrdersResult']['NextToken'])) {
                 $data['ListOrders'] = $response['ListOrdersResult']['Orders']['Order'];
-                $data['NextToken'] = $response['ListOrdersResult']['NextToken'];
+                $data['NextToken']  = $response['ListOrdersResult']['NextToken'];
                 return $data;
             }
 
@@ -422,13 +422,13 @@ class MWSClient
     /**
      * Returns orders created or updated during a time frame that you specify.
      * @param string $nextToken
-     * @return array
      * @throws Exception
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return array
      */
     public function ListOrdersByNextToken($nextToken)
     {
-        $query = [
+        $query    = [
             'NextToken' => $nextToken,
         ];
         $response = $this->request(
@@ -438,7 +438,7 @@ class MWSClient
         if (isset($response['ListOrdersByNextTokenResult']['Orders']['Order'])) {
             if (isset($response['ListOrdersByNextTokenResult']['NextToken'])) {
                 $data['ListOrders'] = $response['ListOrdersByNextTokenResult']['Orders']['Order'];
-                $data['NextToken'] = $response['ListOrdersByNextTokenResult']['NextToken'];
+                $data['NextToken']  = $response['ListOrdersByNextTokenResult']['NextToken'];
                 return $data;
             }
             $response = $response['ListOrdersByNextTokenResult']['Orders']['Order'];
@@ -454,9 +454,9 @@ class MWSClient
     /**
      * Returns an order based on the AmazonOrderId values that you specify.
      * @param string $AmazonOrderId
-     * @return bool if the order is found, false if not
      * @throws Exception
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return bool if the order is found, false if not
      */
     public function GetOrder($AmazonOrderId)
     {
@@ -473,16 +473,16 @@ class MWSClient
     /**
      * Returns order items based on the AmazonOrderId that you specify.
      * @param string $AmazonOrderId
-     * @return array
      * @throws Exception
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return array
      */
     public function ListOrderItems($AmazonOrderId)
     {
         $response = $this->request('ListOrderItems', [
             'AmazonOrderId' => $AmazonOrderId
         ]);
-        $result = array_values($response['ListOrderItemsResult']['OrderItems']);
+        $result   = array_values($response['ListOrderItemsResult']['OrderItems']);
         if (isset($result[0]['QuantityOrdered'])) {
             return $result;
         } else {
@@ -493,15 +493,15 @@ class MWSClient
     /**
      * Returns the parent product categories that a product belongs to, based on SellerSKU.
      * @param string $SellerSKU
-     * @return bool if found, false if not found
      * @throws Exception
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return bool if found, false if not found
      */
     public function GetProductCategoriesForSKU($SellerSKU)
     {
         $result = $this->request('GetProductCategoriesForSKU', [
             'MarketplaceId' => $this->config['Marketplace_Id'],
-            'SellerSKU' => $SellerSKU
+            'SellerSKU'     => $SellerSKU
         ]);
         if (isset($result['GetProductCategoriesForSKUResult']['Self'])) {
             return $result['GetProductCategoriesForSKUResult']['Self'];
@@ -513,15 +513,15 @@ class MWSClient
     /**
      * Returns the parent product categories that a product belongs to, based on ASIN.
      * @param string $ASIN
-     * @return bool if found, false if not found
      * @throws Exception
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return bool if found, false if not found
      */
     public function GetProductCategoriesForASIN($ASIN)
     {
         $result = $this->request('GetProductCategoriesForASIN', [
             'MarketplaceId' => $this->config['Marketplace_Id'],
-            'ASIN' => $ASIN
+            'ASIN'          => $ASIN
         ]);
         if (isset($result['GetProductCategoriesForASINResult']['Self'])) {
             return $result['GetProductCategoriesForASINResult']['Self'];
@@ -545,15 +545,15 @@ class MWSClient
             throw new Exception('Maximum number of id\'s = 5');
         }
         $counter = 1;
-        $array = [
+        $array   = [
             'MarketplaceId' => $this->config['Marketplace_Id'],
-            'IdType' => $type
+            'IdType'        => $type
         ];
         foreach ($asin_array as $asin) {
             $array['IdList.Id.' . $counter] = $asin;
             $counter++;
         }
-        $response = $this->request(
+        $response  = $this->request(
             'GetMatchingProductForId',
             $array,
             null,
@@ -567,20 +567,20 @@ class MWSClient
             'it-IT',
             'en-US'
         ];
-        $replace = [
+        $replace   = [
             '</ns2:ItemAttributes>' => '</ItemAttributes>'
         ];
         foreach ($languages as $language) {
             $replace['<ns2:ItemAttributes xml:lang="' . $language . '">'] = '<ItemAttributes><Language>' . $language . '</Language>';
         }
         $replace['ns2:'] = '';
-        $response = $this->xmlToArray(strtr($response, $replace));
+        $response        = $this->xmlToArray(strtr($response, $replace));
         if (isset($response['GetMatchingProductForIdResult']['@attributes'])) {
             $response['GetMatchingProductForIdResult'] = [
                 0 => $response['GetMatchingProductForIdResult']
             ];
         }
-        $found = [];
+        $found     = [];
         $not_found = [];
         if (isset($response['GetMatchingProductForIdResult']) && is_array($response['GetMatchingProductForIdResult'])) {
             foreach ($response['GetMatchingProductForIdResult'] as $result) {
@@ -617,13 +617,13 @@ class MWSClient
                             $array['ListPrice'] = $product['AttributeSets']['ItemAttributes']['ListPrice'];
                         }
                         if (isset($product['AttributeSets']['ItemAttributes']['SmallImage'])) {
-                            $image = $product['AttributeSets']['ItemAttributes']['SmallImage']['URL'];
+                            $image                 = $product['AttributeSets']['ItemAttributes']['SmallImage']['URL'];
                             $array['medium_image'] = $image;
-                            $array['small_image'] = str_replace('._SL75_', '._SL50_', $image);
-                            $array['large_image'] = str_replace('._SL75_', '', $image);;
+                            $array['small_image']  = str_replace('._SL75_', '._SL50_', $image);
+                            $array['large_image']  = str_replace('._SL75_', '', $image);;
                         }
                         if (isset($product['Relationships']['VariationParent']['Identifiers']['MarketplaceASIN']['ASIN'])) {
-                            $array['Parentage'] = 'child';
+                            $array['Parentage']     = 'child';
                             $array['Relationships'] = $product['Relationships']['VariationParent']['Identifiers']['MarketplaceASIN']['ASIN'];
                         }
                         if (isset($product['Relationships']['VariationChild'])) {
@@ -638,7 +638,7 @@ class MWSClient
             }
         }
         return [
-            'found' => $found,
+            'found'     => $found,
             'not_found' => $not_found
         ];
     }
@@ -647,21 +647,21 @@ class MWSClient
      * Returns a list of products and their attributes, ordered by relevancy, based on a search query that you specify.
      * @param string $query the open text query
      * @param string [$query_context_id = null] the identifier for the context within which the given search will be performed. see: http://docs.developer.amazonservices.com/en_US/products/Products_QueryContextIDs.html
-     * @return array
      * @throws Exception
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return array
      */
     public function ListMatchingProducts($query, $query_context_id = null)
     {
         if (trim($query) == "") {
             throw new Exception('Missing query');
         }
-        $array = [
-            'MarketplaceId' => $this->config['Marketplace_Id'],
-            'Query' => urlencode($query),
+        $array     = [
+            'MarketplaceId'  => $this->config['Marketplace_Id'],
+            'Query'          => urlencode($query),
             'QueryContextId' => $query_context_id
         ];
-        $response = $this->request(
+        $response  = $this->request(
             'ListMatchingProducts',
             $array,
             null,
@@ -675,14 +675,14 @@ class MWSClient
             'it-IT',
             'en-US'
         ];
-        $replace = [
+        $replace   = [
             '</ns2:ItemAttributes>' => '</ItemAttributes>'
         ];
         foreach ($languages as $language) {
             $replace['<ns2:ItemAttributes xml:lang="' . $language . '">'] = '<ItemAttributes><Language>' . $language . '</Language>';
         }
         $replace['ns2:'] = '';
-        $response = $this->xmlToArray(strtr($response, $replace));
+        $response        = $this->xmlToArray(strtr($response, $replace));
         if (isset($response['ListMatchingProductsResult'])) {
             return $response['ListMatchingProductsResult'];
         } else {
@@ -693,13 +693,13 @@ class MWSClient
     /**
      * Returns a list of reports that were created in the previous 90 days.
      * @param array [$ReportTypeList = []]
-     * @return array
      * @throws Exception
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return array
      */
     public function GetReportList($ReportTypeList = [])
     {
-        $array = [];
+        $array   = [];
         $counter = 1;
         if (count($ReportTypeList)) {
             foreach ($ReportTypeList as $ReportType) {
@@ -713,9 +713,9 @@ class MWSClient
     /**
      * Returns your active recommendations for a specific category or for all categories for a specific marketplace.
      * @param string [$RecommendationCategory = null] One of: Inventory, Selection, Pricing, Fulfillment, ListingQuality, GlobalSelling, Advertising
-     * @return array/false if no result
      * @throws Exception
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return array/false if no result
      */
     public function ListRecommendations($RecommendationCategory = null)
     {
@@ -735,9 +735,9 @@ class MWSClient
 
     /**
      * Returns a list of marketplaces that the seller submitting the request can sell in, and a list of participations that include seller-specific information in that marketplace
-     * @return array
      * @throws Exception
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return array
      */
     public function ListMarketplaceParticipations()
     {
@@ -760,13 +760,13 @@ class MWSClient
     {
         $feed = [
             'MessageType' => 'Product',
-            'Message' => []
+            'Message'     => []
         ];
         foreach ($array as $sku) {
             $feed['Message'][] = [
-                'MessageID' => rand(),
+                'MessageID'     => rand(),
                 'OperationType' => 'Delete',
-                'Product' => [
+                'Product'       => [
                     'SKU' => $sku
                 ]
             ];
@@ -777,22 +777,22 @@ class MWSClient
     /**
      * Update a product's stock quantity
      * @param array $array array containing sku as key and quantity as value
-     * @return array feed submission result
      * @throws Exception
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return array feed submission result
      */
     public function updateStock(array $array)
     {
         $feed = [
             'MessageType' => 'Inventory',
-            'Message' => []
+            'Message'     => []
         ];
         foreach ($array as $sku => $quantity) {
             $feed['Message'][] = [
-                'MessageID' => rand(),
+                'MessageID'     => rand(),
                 'OperationType' => 'Update',
-                'Inventory' => [
-                    'SKU' => $sku,
+                'Inventory'     => [
+                    'SKU'      => $sku,
                     'Quantity' => (int)$quantity
                 ]
             ];
@@ -804,23 +804,23 @@ class MWSClient
      * Update a product's stock quantity
      *
      * @param array $array array containing arrays with next keys: [sku, quantity, latency]
-     * @return array feed submission result
      * @throws Exception
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return array feed submission result
      */
     public function updateStockWithFulfillmentLatency(array $array)
     {
         $feed = [
             'MessageType' => 'Inventory',
-            'Message' => []
+            'Message'     => []
         ];
         foreach ($array as $item) {
             $feed['Message'][] = [
-                'MessageID' => rand(),
+                'MessageID'     => rand(),
                 'OperationType' => 'Update',
-                'Inventory' => [
-                    'SKU' => $item['sku'],
-                    'Quantity' => (int)$item['quantity'],
+                'Inventory'     => [
+                    'SKU'                => $item['sku'],
+                    'Quantity'           => (int)$item['quantity'],
                     'FulfillmentLatency' => $item['latency']
                 ]
             ];
@@ -832,23 +832,23 @@ class MWSClient
      * Update a product's price
      * @param array $standardprice an array containing sku as key and price as value
      * @param array|null $saleprice
-     * @return array feed submission result
      * @throws Exception
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return array feed submission result
      */
     public function updatePrice(array $standardprice, array $saleprice = null)
     {
         $feed = [
             'MessageType' => 'Price',
-            'Message' => []
+            'Message'     => []
         ];
         foreach ($standardprice as $sku => $price) {
             $feed['Message'][] = [
                 'MessageID' => rand(),
-                'Price' => [
-                    'SKU' => $sku,
+                'Price'     => [
+                    'SKU'           => $sku,
                     'StandardPrice' => [
-                        '_value' => strval($price),
+                        '_value'      => strval($price),
                         '_attributes' => [
                             'currency' => 'DEFAULT'
                         ]
@@ -858,9 +858,9 @@ class MWSClient
             if (isset($saleprice[$sku]) && is_array($saleprice[$sku])) {
                 $feed['Message'][count($feed['Message']) - 1]['Price']['Sale'] = [
                     'StartDate' => $saleprice[$sku]['StartDate']->format(self::DATE_FORMAT),
-                    'EndDate' => $saleprice[$sku]['EndDate']->format(self::DATE_FORMAT),
+                    'EndDate'   => $saleprice[$sku]['EndDate']->format(self::DATE_FORMAT),
                     'SalePrice' => [
-                        '_value' => strval($saleprice[$sku]['SalePrice']),
+                        '_value'      => strval($saleprice[$sku]['SalePrice']),
                         '_attributes' => [
                             'currency' => 'DEFAULT'
                         ]
@@ -875,22 +875,22 @@ class MWSClient
      * Update a product's image
      *
      * @param array $array array containing arrays with next keys: [sku, image_type, image_location]
-     * @return array|string
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return array|string
      */
     public function updateImage(array $array)
     {
         $feed = [
             'MessageType' => 'ProductImage',
-            'Message' => []
+            'Message'     => []
         ];
         foreach ($array as $item) {
             $feed['Message'][] = [
-                'MessageID' => rand(),
+                'MessageID'     => rand(),
                 'OperationType' => 'Update',
-                'ProductImage' => [
-                    'SKU' => $item['sku'],
-                    'ImageType' => $item['image_type'],
+                'ProductImage'  => [
+                    'SKU'           => $item['sku'],
+                    'ImageType'     => $item['image_type'],
                     'ImageLocation' => $item['image_location']
                 ]
             ];
@@ -902,29 +902,29 @@ class MWSClient
      * Update a product's Relationship
      *
      * @param array $array array containing arrays with next keys: [parent_sku, relation_list]
-     * @return array|string
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return array|string
      */
     public function updateRelationship(array $array)
     {
         $feed = [
             'MessageType' => 'Relationship',
-            'Message' => []
+            'Message'     => []
         ];
         foreach ($array as $item) {
             $relationList = $item['relation_list'];
-            $newData = [
-                'MessageID' => rand(),
+            $newData      = [
+                'MessageID'     => rand(),
                 'OperationType' => 'Update',
-                'Relationship' => [
+                'Relationship'  => [
                     'ParentSKU' => $item['parent_sku'],
-                    'Relation' => [],
+                    'Relation'  => [],
                 ]
             ];
 
             foreach ($relationList as $relation) {
                 $newData['Relationship']['Relation'][] = [
-                    'SKU' => $relation['sku'],
+                    'SKU'  => $relation['sku'],
                     'Type' => $relation['type'] ?? 'Variation',
                 ];
             }
@@ -938,9 +938,9 @@ class MWSClient
     /**
      * Returns the feed processing report and the Content-MD5 header.
      * @param string $FeedSubmissionId
-     * @return array
      * @throws Exception
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return array
      */
     public function GetFeedSubmissionResult($FeedSubmissionId)
     {
@@ -969,7 +969,7 @@ class MWSClient
             $feedContent = $this->arrayToXml(
                 array_merge([
                     'Header' => [
-                        'DocumentVersion' => 1.01,
+                        'DocumentVersion'    => 1.01,
                         'MerchantIdentifier' => $this->config['Seller_Id']
                     ]
                 ], $feedContent)
@@ -987,11 +987,11 @@ class MWSClient
         $purgeAndReplace = isset($options['PurgeAndReplace']) ? $options['PurgeAndReplace'] : false;
 
         $query = [
-            'FeedType' => $FeedType,
-            'PurgeAndReplace' => ($purgeAndReplace ? 'true' : 'false'),
-            'Merchant' => $this->config['Seller_Id'],
+            'FeedType'           => $FeedType,
+            'PurgeAndReplace'    => ($purgeAndReplace ? 'true' : 'false'),
+            'Merchant'           => $this->config['Seller_Id'],
             'MarketplaceId.Id.1' => false,
-            'SellerId' => false,
+            'SellerId'           => false,
         ];
         //if ($FeedType === '_POST_PRODUCT_PRICING_DATA_') {
         $query['MarketplaceIdList.Id.1'] = $this->config['Marketplace_Id'];
@@ -1038,7 +1038,7 @@ class MWSClient
     {
         $query = [
             'MarketplaceIdList.Id.1' => $this->config['Marketplace_Id'],
-            'ReportType' => $report
+            'ReportType'             => $report
         ];
         if (!is_null($StartDate)) {
             if (!is_a($StartDate, 'DateTime')) {
@@ -1068,9 +1068,9 @@ class MWSClient
     /**
      * Get a report's content
      * @param string $ReportId
-     * @return array|bool on succes
      * @throws Exception
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return array|bool on succes
      */
     public function GetReport($ReportId)
     {
@@ -1086,9 +1086,9 @@ class MWSClient
                     $reader = Reader::createFromString($result);
                     $reader->setDelimiter("\t");
                     $reader->setHeaderOffset(0);
-                    $headers = $reader->getHeader();
+                    $headers   = $reader->getHeader();
                     $statement = new \League\Csv\Statement;
-                    $result = [];
+                    $result    = [];
                     foreach ($statement->process($reader) as $row) {
                         $result[] = array_combine($headers, $row);
                     }
@@ -1103,9 +1103,9 @@ class MWSClient
     /**
      * Get a report's processing status
      * @param string $ReportId
-     * @return bool if the report is found
      * @throws Exception
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return bool if the report is found
      */
     public function GetReportRequestStatus($ReportId)
     {
@@ -1123,9 +1123,9 @@ class MWSClient
      *
      * @param array $sku_array
      *
-     * @return array
      * @throws Exception
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return array
      */
     public function ListInventorySupply($sku_array = [])
     {
@@ -1135,7 +1135,7 @@ class MWSClient
         }
 
         $counter = 1;
-        $query = [
+        $query   = [
             'MarketplaceId' => $this->config['Marketplace_Id']
         ];
 
@@ -1162,58 +1162,31 @@ class MWSClient
     /**
      * Sets the shipping status of orders
      * @param array $data required data
-     * @return array feed submission result
      * @throws Exception
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return array feed submission result
      */
     public function setDeliveryState(array $data)
     {
-        $feed = [
-            'MessageType' => 'OrderFulfillment',
-            'Message' => []
-        ];
-        foreach ($data as $k => $datum) {
-            if (!isset($datum["shippingDate"])) {
-                $datum["shippingDate"] = date("c");
-            }
+        $csv = Writer::createFromFileObject(new SplTempFileObject());
+        $csv->setDelimiter("\t");
 
-            if (!isset($datum["carrierCode"]) && !isset($datum["carrierName"])) {
-                throw new Exception('Missing required carrier data');
-            }
-
-            $feed['Message'][$k] = [
-                'MessageID' => rand(),
-                "OrderFulfillment" => [
-                    "AmazonOrderID" => $datum["orderId"],
-                    "FulfillmentDate" => $datum["shippingDate"]
-                ]
-            ];
-            $fulfillmentData = [];
-
-
-            if (isset($datum["carrierCode"])) {
-                $fulfillmentData["CarrierCode"] = $datum["carrierCode"];
-            } elseif (isset($datum["carrierName"])) {
-                $fulfillmentData["CarrierName"] = $datum["carrierName"];
-            }
-
-            if (isset($datum["shippingMethod"])) {
-                $fulfillmentData["ShippingMethod"] = $datum["shippingMethod"];
-            }
-
-
-            if (isset($datum["trackingCode"])) {
-                $fulfillmentData["ShipperTrackingNumber"] = $datum["trackingCode"];
-            }
-
-            if (sizeof($fulfillmentData) > 0) {
-                $feed["Message"][$k]["OrderFulfillment"]["FulfillmentData"] = $fulfillmentData;
-            }
+//        $header = [
+//            'order-id',       //亚马逊订单ID
+//            'order-item-id',  //订单产品id
+//            'quantity',       //订单产品数量
+//            'ship-date',      //发货日期
+//            'carrier-code',   //物流运营商代码
+//            'carrier-name',   //物流名称
+//            'tracking-number',//物流单号
+//        ];
+        $header = array_keys($data[0]);
+        $csv->insertOne($header);
+        foreach ($data as $item) {
+            $csv->insertOne(array_values($item));
         }
 
-        $feed = $this->SubmitFeed('_POST_ORDER_FULFILLMENT_DATA_', $feed);
-
-        return $feed;
+        return $this->SubmitFeed('_POST_FLAT_FILE_FULFILLMENT_DATA_', $csv);
     }
 
     /**
@@ -1222,9 +1195,9 @@ class MWSClient
      * @param string $template
      * @param null $version
      * @param null $signature
-     * @return array
      * @throws Exception
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return array
      */
     public function postProduct($MWSProduct, $template = 'Custom', $version = null, $signature = null)
     {
@@ -1253,9 +1226,9 @@ class MWSClient
      * @param array $MWSProduct
      * @param string $template
      * @param null $version
-     * @return array
      * @throws Exception
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return array
      */
     public function postFollowProduct($MWSProduct, $template = 'Offer', $version = null)
     {
@@ -1282,14 +1255,14 @@ class MWSClient
      * Returns financial events for a given order by it's id
      *
      * @param string $AmazonOrderId
-     * @return array
-     *
      * @throws Exception
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return array
+     *
      */
     public function ListFinancialEventsByOrderId($AmazonOrderId)
     {
-        $query = ['AmazonOrderId' => $AmazonOrderId];
+        $query    = ['AmazonOrderId' => $AmazonOrderId];
         $response = $this->request('ListFinancialEvents', $query);
         return $this->processListFinancialEventsResponse($response);
     }
@@ -1298,14 +1271,14 @@ class MWSClient
      * Returns financial events for a given financial event group id
      *
      * @param $groupId
-     * @return array
-     *
      * @throws Exception
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return array
+     *
      */
     public function ListFinancialEventsByEventGroupId($groupId)
     {
-        $query = ['FinancialEventGroupId' => $groupId];
+        $query    = ['FinancialEventGroupId' => $groupId];
         $response = $this->request('ListFinancialEvents', $query);
         return $this->processListFinancialEventsResponse($response);
     }
@@ -1316,10 +1289,10 @@ class MWSClient
      * @param DateTime $from
      * @param DateTime|null $till
      *
-     * @return array
-     *
      * @throws Exception
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return array
+     *
      */
     public function ListFinancialEventsByDateRange(DateTime $from, DateTime $till = null)
     {
@@ -1354,7 +1327,7 @@ class MWSClient
         if (isset($response[$fieldName]['NextToken'])) {
             // Remove ==, I've seen cases when Amazon servers fails otherwise
             $data['ListFinancialEvents'] = $data;
-            $data['NextToken'] = rtrim($response[$fieldName]['NextToken'], '=');
+            $data['NextToken']           = rtrim($response[$fieldName]['NextToken'], '=');
             return $data;
         }
         return ['ListFinancialEvents' => $data];
@@ -1364,14 +1337,14 @@ class MWSClient
      * Returns the next page of financial events using the NextToken parameter
      *
      * @param string $nextToken
-     * @return array
-     *
      * @throws Exception
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return array
+     *
      */
     public function ListFinancialEventsByNextToken($nextToken)
     {
-        $query = [
+        $query    = [
             'NextToken' => $nextToken,
         ];
         $response = $this->request(
@@ -1384,12 +1357,12 @@ class MWSClient
     /**
      * @param array $ReportTypeList
      * @param $limit
-     * @return array
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return array
      */
     public function GetReportRequestList($ReportTypeList = null, $limit = null)
     {
-        $array = [];
+        $array   = [];
         $counter = 1;
         if (count($ReportTypeList)) {
             foreach ($ReportTypeList as $ReportType) {
@@ -1405,12 +1378,12 @@ class MWSClient
      * @param array $ReportTypeList
      * @param $nextToken
      * @param $limit
-     * @return array
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return array
      */
     public function GetReportListByNextToken($ReportTypeList = [], $nextToken = null, $limit = null)
     {
-        $array = [];
+        $array   = [];
         $counter = 1;
         if (count($ReportTypeList)) {
             foreach ($ReportTypeList as $ReportType) {
@@ -1432,24 +1405,24 @@ class MWSClient
      * @param array $query
      * @param null $body
      * @param bool $raw
-     * @return string|array
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws Exception
+     * @return string|array
      */
     protected function request($endPoint, array $query = [], $body = null, $raw = false)
     {
         $endPoint = MWSEndPoint::get($endPoint);
-        $merge = [
-            'Timestamp' => gmdate(self::DATE_FORMAT, time()),
-            'AWSAccessKeyId' => $this->config['Access_Key_ID'],
-            'Action' => $endPoint['action'],
+        $merge    = [
+            'Timestamp'        => gmdate(self::DATE_FORMAT, time()),
+            'AWSAccessKeyId'   => $this->config['Access_Key_ID'],
+            'Action'           => $endPoint['action'],
             //'MarketplaceId.Id.1' => $this->config['Marketplace_Id'],
-            'SellerId' => $this->config['Seller_Id'],
-            'SignatureMethod' => self::SIGNATURE_METHOD,
+            'SellerId'         => $this->config['Seller_Id'],
+            'SignatureMethod'  => self::SIGNATURE_METHOD,
             'SignatureVersion' => self::SIGNATURE_VERSION,
-            'Version' => $endPoint['date'],
+            'Version'          => $endPoint['date'],
         ];
-        $query = array_merge($merge, $query);
+        $query    = array_merge($merge, $query);
         if (!isset($query['MarketplaceId.Id.1'])) {
             $query['MarketplaceId.Id.1'] = $this->config['Marketplace_Id'];
         }
@@ -1464,7 +1437,7 @@ class MWSClient
         }
         try {
             $headers = [
-                'Accept' => 'application/xml',
+                'Accept'              => 'application/xml',
                 'x-amazon-user-agent' => $this->config['Application_Name'] . '/' . $this->config['Application_Version']
             ];
             if ($endPoint['action'] === 'SubmitFeed') {
@@ -1483,13 +1456,13 @@ class MWSClient
             }
             $requestOptions = [
                 'headers' => $headers,
-                'body' => $body,
-                'curl' => [
+                'body'    => $body,
+                'curl'    => [
                     CURLOPT_SSLVERSION => CURL_SSLVERSION_TLSv1_2
                 ]
             ];
             ksort($query);
-            $query['Signature'] = base64_encode(
+            $query['Signature']      = base64_encode(
                 hash_hmac(
                     'sha256',
                     $endPoint['method']
@@ -1513,7 +1486,7 @@ class MWSClient
                 $this->config['Region_Url'] . $endPoint['path'],
                 $requestOptions
             );
-            $body = (string)$response->getBody();
+            $body     = (string)$response->getBody();
             if ($raw) {
                 return $body;
             } else {
@@ -1528,7 +1501,7 @@ class MWSClient
                 $message = $e->getResponse();
                 $message = $message->getBody();
                 if (strpos($message, '<ErrorResponse') !== false) {
-                    $error = simplexml_load_string($message);
+                    $error   = simplexml_load_string($message);
                     $message = $error->Error->Message;
                 }
             } else {
